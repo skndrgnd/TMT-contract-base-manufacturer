@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMT & Construction Material Supplier / Manufacturer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        /* Professional Color Scheme */
+        :root {
+            --primary-blue: #2c5aa0;
+            --steel-gray: #4a6572;
+            --safety-orange: #ff6b35;
+            --construction-yellow: #f9a826;
+            --concrete-white: #ffffff;
+            --industrial-black: #2c3e50;
+            --success-green: #27ae60;
+        }
+        
+        /* Header with Image Slider */
+        .header-slider {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+        }
+        
+        .slider-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+        
+        .company-name {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .specialization {
+            background: var(--safety-orange);
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Slider Controls */
+        .slider-dots {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: var(--safety-orange);
+            transform: scale(1.2);
+        }
+        
+        /* Navigation */
+        .nav {
+            background: var(--industrial-black);
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        
+        .nav a:hover {
+            background: var(--safety-orange);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 3rem 2.5rem;
+            margin: 2.5rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .section-title {
+            color: var(--industrial-black);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--safety-orange));
+            border-radius: 2px;
+        }
+        
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        
+        /* Inquiry Form */
+        .inquiry-form-container {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e4a8a 100%);
+            padding: 3rem;
+            border-radius: 15px;
+            color: white;
+            margin: 3rem 0;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .inquiry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+        }
+        
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: var(--safety-orange);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Services Grid */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e4a8a 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(44, 90, 160, 0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--industrial-black) 0%, #1a252f 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-slider {
+                height: 60vh;
+            }
+            
+            .company-name {
+                font-size: 2.5rem;
+            }
+            
+            .inquiry-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Image Slider -->
+    <div class="header-slider">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">TMT & Construction Material</h1>
+                    <p class="tagline">Supplier / Manufacturer</p>
+                    <div class="specialization">गुणवत्ता और विश्वसनीयता का पर्याय</div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Premium TMT Sariya</h1>
+                    <p class="tagline">FE 500, FE 500D, FE 550 Grades</p>
+                    <div class="specialization">बेहतरीन गुणवत्ता, उच्च तन्य शक्ति</div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Modern Manufacturing</h1>
+                    <p class="tagline">State-of-the-Art Production Facility</p>
+                    <div class="specialization">नवीनतम तकनीक, उन्नत उपकरण</div>
+                </div>
+            </div>
+            
+            <!-- Slide 4 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Quality Assurance</h1>
+                    <p class="tagline">Rigorous Testing & Standards</p>
+                    <div class="specialization">ISO 9001:2015 Certified</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slider-dots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+            <div class="dot" data-slide="3"></div>
+        </div>
+    </div>
+    
+    <nav class="nav">
+        <ul>
+            <li><a href="#home">होम</a></li>
+            <li><a href="#about">हमारे बारे में</a></li>
+            <li><a href="#products">उत्पाद</a></li>
+            <li><a href="#gallery">गैलरी</a></li>
+            <li><a href="#inquiry">पूछताछ</a></li>
+            <li><a href="#contact">संपर्क</a></li>
+        </ul>
+    </nav>
+    
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <h2 class="section-title">हमारा व्यवसाय मॉडल</h2>
+            <div class="services">
+                <div class="service-card">
+                    <h3>TMT सरिया निर्माण</h3>
+                    <p>FE 500, FE 500D, FE 550 ग्रेड में उच्च गुणवत्ता वाले TMT सरिया का उत्पादन</p>
+                </div>
+                <div class="service-card">
+                    <h3>कंस्ट्रक्शन मटेरियल</h3>
+                    <p>सीमेंट, एग्रीगेट्स, और अन्य निर्माण सामग्री की सप्लाई</p>
+                </div>
+                <div class="service-card">
+                    <h3>कॉन्ट्रैक्ट मैन्युफैक्चरिंग</h3>
+                    <p>अन्य कंपनियों के लिए कॉन्ट्रैक्ट बेस्ड उत्पादन</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Image Gallery Section -->
+        <section id="gallery" class="section">
+            <h2 class="section-title">हमारी गैलरी</h2>
+            <div class="image-gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Inquiry Form Section -->
+        <section id="inquiry" class="section">
+            <h2 class="section-title">बिजनेस पूछताछ</h2>
+            <div class="inquiry-form-container">
+                <h3 class="form-title">अपनी आवश्यकता बताएं</h3>
+                <form class="inquiry-form" id="businessInquiryForm">
+                    <div class="form-group">
+                        <label class="form-label">आपका नाम *</label>
+                        <input type="text" class="form-input" placeholder="पूरा नाम" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">मोबाइल नंबर *</label>
+                        <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ईमेल आईडी</label>
+                        <input type="email" class="form-input" placeholder="email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">कंपनी का नाम</label>
+                        <input type="text" class="form-input" placeholder="आपकी कंपनी का नाम">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">उत्पाद में रुचि *</label>
+                        <select class="form-select" required>
+                            <option value="">चुनें...</option>
+                            <option value="fe500">FE 500 TMT सरिया</option>
+                            <option value="fe500d">FE 500D TMT सरिया</option>
+                            <option value="fe550">FE 550 TMT सरिया</option>
+                            <option value="cement">सीमेंट</option>
+                            <option value="aggregate">एग्रीगेट्स</option>
+                            <option value="other">अन्य</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">अनुमानित मात्रा</label>
+                        <select class="form-select">
+                            <option value="">चुनें...</option>
+                            <option value="1-10">1-10 टन</option>
+                            <option value="10-50">10-50 टन</option>
+                            <option value="50-100">50-100 टन</option>
+                            <option value="100+">100+ टन</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">अतिरिक्त जानकारी</label>
+                        <textarea class="form-textarea" placeholder="कोई विशेष आवश्यकता या संदेश..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">पूछताछ भेजें</button>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2 class="section-title">संपर्क करें</h2>
+            <div class="contact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div class="contact-card" style="background: linear-gradient(135deg, var(--steel-gray) 0%, var(--industrial-black) 100%); color: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <h3>व्यापारिक पूछताछ</h3>
+                    <p>📞 +91 98765 43210</p>
+                    <p>📧 business@tmtconstruction.com</p>
+                </div>
+                <div class="contact-card" style="background: linear-gradient(135deg, var(--steel-gray) 0%, var(--industrial-black) 100%); color: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                    <h3>बिक्री विभाग</h3>
+                    <p>📞 +91 97654 32109</p>
+                    <p>📧 sales@tmtconstruction.com</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p style="font-size: 1.3rem; margin-bottom: 1rem; font-weight: bold;">TMT & Construction Material Supplier / Manufacturer</p>
+        <p style="margin-bottom: 2rem; opacity: 0.9;">विश्वसनीयता की नींव, विकास की ऊँचाइयाँ</p>
+        <p>&copy; 2024 TMT & Construction Material. सभी अधिकार सुरक्षित.</p>
+    </footer>
+
+    <script>
+        // Image Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const slideInterval = 5000; // 5 seconds
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        // Auto slide
+        let slideTimer = setInterval(nextSlide, slideInterval);
+        
+        // Dot click event
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                clearInterval(slideTimer);
+                showSlide(index);
+                slideTimer = setInterval(nextSlide, slideInterval);
+            });
+        });
+        
+        // Form submission
+        document.getElementById('businessInquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('आपकी पूछताछ सफलतापूर्वक भेज दी गई है! हम जल्द ही आपसे संपर्क करेंगे।');
+            this.reset();
+        });
+        
+        // Pause slider on hover
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', () => {
+            clearInterval(slideTimer);
+        });
+        
+        sliderContainer.addEventListener('mouseleave', () => {
+            slideTimer = setInterval(nextSlide, slideInterval);
+        });
+    </script>
+</body>
+</html>
