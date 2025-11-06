@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMT & Construction Material Supplier / Manufacturer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        /* Professional Color Scheme */
+        :root {
+            --primary-blue: #2c5aa0;
+            --steel-gray: #4a6572;
+            --safety-orange: #ff6b35;
+            --construction-yellow: #f9a826;
+            --concrete-white: #ffffff;
+            --industrial-black: #2c3e50;
+            --success-green: #27ae60;
+        }
+        
+        /* Header with Image Slider */
+        .header-slider {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+        }
+        
+        .slider-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+        
+        .company-name {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .specialization {
+            background: var(--safety-orange);
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Slider Controls */
+        .slider-dots {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: var(--safety-orange);
+            transform: scale(1.2);
+        }
+        
+        /* Navigation */
+        .nav {
+            background: var(--industrial-black);
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        
+        .nav a:hover {
+            background: var(--safety-orange);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 3rem 2.5rem;
+            margin: 2.5rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .section-title {
+            color: var(--industrial-black);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--safety-orange));
+            border-radius: 2px;
+        }
+        
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        
+        /* Inquiry Form */
+        .inquiry-form-container {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e4a8a 100%);
+            padding: 3rem;
+            border-radius: 15px;
+            color: white;
+            margin: 3rem 0;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .inquiry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+        }
+        
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: var(--safety-orange);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Services Grid */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e4a8a 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(44, 90, 160, 0.3);
+        }
+        
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--safety-orange);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary-blue);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--safety-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background: linear-gradient(135deg, var(--steel-gray) 0%, var(--industrial-black) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--industrial-black) 0%, #1a252f 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: var(--success-green);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-slider {
+                height: 60vh;
+            }
+            
+            .company-name {
+                font-size: 2.5rem;
+            }
+            
+            .inquiry-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Image Slider -->
+    <div class="header-slider">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">TMT & Construction Material</h1>
+                    <p class="tagline">Supplier / Manufacturer</p>
+                    <div class="specialization">Synonym of Quality and Reliability</div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Premium TMT Bars</h1>
+                    <p class="tagline">FE 500, FE 500D, FE 550 Grades</p>
+                    <div class="specialization">Excellent Quality, High Tensile Strength</div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Modern Manufacturing</h1>
+                    <p class="tagline">State-of-the-Art Production Facility</p>
+                    <div class="specialization">Latest Technology, Advanced Equipment</div>
+                </div>
+            </div>
+            
+            <!-- Slide 4 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+                <div class="slide-content">
+                    <h1 class="company-name">Quality Assurance</h1>
+                    <p class="tagline">Rigorous Testing & Standards</p>
+                    <div class="specialization">ISO 9001:2015 Certified</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slider-dots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+            <div class="dot" data-slide="3"></div>
+        </div>
+    </div>
+    
+    <nav class="nav">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#inquiry">Inquiry</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <h2 class="section-title">Our Business Model</h2>
+            
+            <div class="trust-badges">
+                <div class="badge">ISO 9001:2015 Certified</div>
+                <div class="badge">BIS Approved</div>
+                <div class="badge">Since 2005</div>
+            </div>
+            
+            <div class="services">
+                <div class="service-card">
+                    <h3>TMT Bar Manufacturing</h3>
+                    <p>Production of high-quality TMT bars in FE 500, FE 500D, FE 550 grades</p>
+                </div>
+                <div class="service-card">
+                    <h3>Construction Materials</h3>
+                    <p>Supply of cement, aggregates, and other construction materials</p>
+                </div>
+                <div class="service-card">
+                    <h3>Contract Manufacturing</h3>
+                    <p>Contract-based production for other companies</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2 class="section-title">Foundation of Trust</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: var(--steel-gray);">
+                15+ Years of Experience, 500+ Satisfied Clients, and Unbreakable Trust - This is Our Identity
+            </p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🏭</div>
+                    <h3>Modern Plant</h3>
+                    <p>Production unit equipped with latest technology</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔬</div>
+                    <h3>Quality Control</h3>
+                    <p>Strict quality checks at every stage</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Timely Delivery</h3>
+                    <p>Reliable logistics across the country</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <h2 class="section-title">Our Products</h2>
+            <div class="products">
+                <div class="product-card">
+                    <h4>FE 500 TMT Bars</h4>
+                    <p>High tensile strength: 500 N/mm², suitable for all types of construction</p>
+                </div>
+                <div class="product-card">
+                    <h4>FE 500D TMT Bars</h4>
+                    <p>Better ductility, ideal for earthquake-resistant structures</p>
+                </div>
+                <div class="product-card">
+                    <h4>FE 550 TMT Bars</h4>
+                    <p>Exceptional tensile strength: 550 N/mm², for heavy construction projects</p>
+                </div>
+                <div class="product-card">
+                    <h4>Construction Materials</h4>
+                    <p>Cement, gravel, sand, and other essential construction materials</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Image Gallery Section -->
+        <section id="gallery" class="section">
+            <h2 class="section-title">Our Gallery</h2>
+            <div class="image-gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Inquiry Form Section -->
+        <section id="inquiry" class="section">
+            <h2 class="section-title">Business Inquiry</h2>
+            <div class="inquiry-form-container">
+                <h3 class="form-title">Tell Us Your Requirements</h3>
+                <form class="inquiry-form" id="businessInquiryForm">
+                    <div class="form-group">
+                        <label class="form-label">Your Name *</label>
+                        <input type="text" class="form-input" placeholder="Full Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mobile Number *</label>
+                        <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email ID</label>
+                        <input type="email" class="form-input" placeholder="email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-input" placeholder="Your Company Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Product Interest *</label>
+                        <select class="form-select" required>
+                            <option value="">Select...</option>
+                            <option value="fe500">FE 500 TMT Bars</option>
+                            <option value="fe500d">FE 500D TMT Bars</option>
+                            <option value="fe550">FE 550 TMT Bars</option>
+                            <option value="cement">Cement</option>
+                            <option value="aggregate">Aggregates</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estimated Quantity</label>
+                        <select class="form-select">
+                            <option value="">Select...</option>
+                            <option value="1-10">1-10 Tons</option>
+                            <option value="10-50">10-50 Tons</option>
+                            <option value="50-100">50-100 Tons</option>
+                            <option value="100+">100+ Tons</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">Additional Information</label>
+                        <textarea class="form-textarea" placeholder="Any special requirements or message..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Inquiry</button>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2 class="section-title">Contact Us</h2>
+            <p style="text-align: center; margin-bottom: 3rem; font-size: 1.1rem; color: var(--steel-gray);">
+                Get expert advice for construction materials and TMT bars
+            </p>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Business Inquiry</h3>
+                    <p>📞 +91 7080669991</p>
+                    <p>📧 business@tmtconstruction.com</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Sales Department</h3>
+                    <p>📞 +91 7080669991</p>
+                    <p>📧 sales@tmtconstruction.com</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Head Office</h3>
+                    <p>Industrial Growth Center,</p>
+                    <p>Gujrat  492001</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p style="font-size: 1.3rem; margin-bottom: 1rem; font-weight: bold;">TMT & Construction Material Supplier / Manufacturer</p>
+            <p style="margin-bottom: 2rem; opacity: 0.9;">Foundation of Reliability, Heights of Development</p>
+            <p>&copy; 2024 TMT & Construction Material. All Rights Reserved.</p>
+            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">ISO 9001:2015 Certified | BIS Approved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Image Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const slideInterval = 5000; // 5 seconds
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        // Auto slide
+        let slideTimer = setInterval(nextSlide, slideInterval);
+        
+        // Dot click event
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                clearInterval(slideTimer);
+                showSlide(index);
+                slideTimer = setInterval(nextSlide, slideInterval);
+            });
+        });
+        
+        // Form submission
+        document.getElementById('businessInquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Your inquiry has been sent successfully! We will contact you soon.');
+            this.reset();
+        });
+        
+        // Pause slider on hover
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', () => {
+            clearInterval(slideTimer);
+        });
+        
+        sliderContainer.addEventListener('mouseleave', () => {
+            slideTimer = setInterval(nextSlide, slideInterval);
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
